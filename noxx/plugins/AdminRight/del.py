@@ -3,7 +3,7 @@ import asyncio
 from ...noxx import Noxx
 
 @Noxx.on_message(filters.me & filters.command("del", "-"))
-async def ping(app: Noxx, message):
+async def deletemes(app: Noxx, message):
     await message.edit("`Purging`")
 
     can_delete = True

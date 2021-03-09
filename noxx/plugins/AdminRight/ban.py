@@ -5,7 +5,7 @@ from ...noxx import Noxx
 TG_MAX_SELECT_LEN = 100
 
 @Noxx.on_message(filters.me & filters.command("ban", "-"))
-async def ping(app: Noxx, message):
+async def ban(app: Noxx, message):
     await message.edit("`Banning`")
 
     chat_id = message.chat.id

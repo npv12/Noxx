@@ -6,7 +6,7 @@ from ...noxx import Noxx
 TG_MAX_SELECT_LEN = 100
 
 @Noxx.on_message(filters.me & filters.command("purge", "-"))
-async def ping(app: Noxx, message):
+async def purge(app: Noxx, message):
     start_time = datetime.now()
     await message.edit("`Purging`")
 

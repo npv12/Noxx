@@ -6,7 +6,7 @@ from ...noxx import Noxx
 TG_MAX_SELECT_LEN = 100
 
 @Noxx.on_message(filters.me & filters.command("kick", "-"))
-async def ping(app: Noxx, message):
+async def kick(app: Noxx, message):
     await message.edit("`Kicking`")
 
     chat_id = message.chat.id
