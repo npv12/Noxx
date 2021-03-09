@@ -42,7 +42,9 @@ async def ping(app: Noxx, message):
     if is_user_info_given:
         
         try:
-            await app.kick_chat_member(chat_id, reply_to_user_id,int(time.time() + 1))
+            await app.kick_chat_member(chat_id, reply_to_user_id)
+            await asyncio.sleep(1)
+            await app.unban_chat_member(chat_id, reply_to_user_id)
             await message.edit(f"`User kicked successfully`")
             await asyncio.sleep(2)
             await message.delete()
