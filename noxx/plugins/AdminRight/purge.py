@@ -14,9 +14,10 @@ async def ping(app: Noxx, message):
 
     chat_id = message.chat.id
     user_id = message.from_user.id
+    deleted_messages_count = 0
 
     #If the user cannot delete message then skip it :)
-    if message.chat.type in ["supergroup", "channel"]:
+    if message.chat.type in ["supergroup", "channel", "group"]:
         check_status = await app.get_chat_member(
             chat_id=chat_id,
             user_id=user_id
