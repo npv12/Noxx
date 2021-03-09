@@ -1,0 +1,60 @@
+from pyrogram import Client, filters
+import asyncio
+from datetime import datetime
+from ..noxx import Noxx
+
+TG_MAX_SELECT_LEN = 100
+
+@Noxx.on_message(filters.me & filters.command("purge", "-"))
+async def ping(app: Noxx, message):
+    start_time = datetime.now()
+    await message.edit("`Purging`")
+
+    can_delete = True
+
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+
+    #If the user cannot delete message then skip it :)
+    if message.chat.type in ["supergroup", "channel"]:
+        check_status = await app.get_chat_member(
+            chat_id=chat_id,
+            user_id=user_id
+        )
+        if (check_status.can_delete_messages == None):
+            can_delete=False
+
+    if(not can_delete):
+        await message.edit("You can't delete messages in this group")
+        await asyncio.sleep(2)
+        await message.delete()
+        return 
+
+    if message.reply_to_message:
+        purge_start_message = message.reply_to_message.message_id
+        purge_end_message = message.message_id
+        message_ids = []
+        deleted_messages_count = 0
+        for a_s_message_id in range(purge_start_message,purge_end_message):
+            message_ids.append(a_s_message_id)
+            if len(message_ids) == TG_MAX_SELECT_LEN:
+                await app.delete_messages(
+                    chat_id=chat_id,
+                    message_ids=message_ids,
+                    revoke=False
+                )
+                deleted_messages_count += len(message_ids)
+                message_ids = []
+        if len(message_ids) > 0:
+            await app.delete_messages(
+                chat_id=chat_id,
+                message_ids=message_ids,
+                revoke=False
+            )
+            deleted_messages_count += len(message_ids)
+    end_time = datetime.now()
+    time_taken = (end_time - start_time).microseconds / 1000
+
+    await message.edit(f"`Purge completed in {time_taken}ms. \nPurged {deleted_messages_count} messages.\nMessage will autodelete in 5s`")
+    await asyncio.sleep(5)
+    await message.delete()
