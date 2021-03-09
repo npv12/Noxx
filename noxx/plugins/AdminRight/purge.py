@@ -13,7 +13,7 @@ async def purge(app: Noxx, message):
 
     chat_id = message.chat.id
     user_id = message.from_user.id
-    deleted_messages_count = 0
+    message_ids = []
 
     #If the user cannot delete message then skip it :)
     if message.chat.type in ["supergroup", "channel", "group"]:
@@ -34,16 +34,14 @@ async def purge(app: Noxx, message):
         purge_start_message = message.reply_to_message.message_id
         purge_end_message = message.message_id
         message_ids = []
-        deleted_messages_count = 0
-        for a_s_message_id in range(purge_start_message,purge_end_message):
-            message_ids.append(a_s_message_id)
+        for message_id in range(purge_start_message,purge_end_message):
+            message_ids.append(message_id)
             if len(message_ids) == TG_MAX_SELECT_LEN:
                 await app.delete_messages(
                     chat_id=chat_id,
                     message_ids=message_ids,
                     revoke=False
                 )
-                deleted_messages_count += len(message_ids)
                 message_ids = []
         if len(message_ids) > 0:
             await app.delete_messages(
@@ -51,10 +49,9 @@ async def purge(app: Noxx, message):
                 message_ids=message_ids,
                 revoke=False
             )
-            deleted_messages_count += len(message_ids)
     end_time = datetime.now()
     time_taken = (end_time - start_time).microseconds / 1000
 
-    await message.edit(f"`Purge completed in {time_taken}ms. \nPurged {deleted_messages_count} messages.\nMessage will autodelete in 5s`")
+    await message.edit(f"`Purge completed in {time_taken}ms.\nMessage will autodelete in 5s`")
     await asyncio.sleep(5)
     await message.delete()
