@@ -32,20 +32,30 @@ async def ping(app: Noxx, message):
         return 
     
     is_user_info_given = False
-    if (message.command[1]):
+    if (len(message.command)>1):
         reply_to_user_id = (await app.get_users(message.command[1])).id
         is_user_info_given = True
     elif (message.reply_to_message):
         reply_to_user_id = message.reply_to_message.from_user.id
         is_user_info_given = True
-
+    print(message.reply_to_message)
     if is_user_info_given:
+        
         try:
             await app.kick_chat_member(chat_id, reply_to_user_id)
             await message.edit(f"`User banned successfully`")
             await asyncio.sleep(2)
             await message.delete()
         except Exception as error:
+            check_status = await app.get_chat_member(
+                chat_id=chat_id,
+                user_id=reply_to_user_id
+            )
+            if (check_status.status in ["creator","administrator"]):
+                await message.edit(f"`You can't ban an admin`")
+                await asyncio.sleep(2)
+                await message.delete()
+                return
             print(error)
             await message.edit(f"`Something went wrong`")
             await asyncio.sleep(2)
