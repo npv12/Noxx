@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 import asyncio
 from datetime import datetime
-from ..noxx import Noxx
+from ...noxx import Noxx
 
 TG_MAX_SELECT_LEN = 100
 
