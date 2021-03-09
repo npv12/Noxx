@@ -7,7 +7,7 @@ TG_MAX_SELECT_LEN = 100
 
 @Noxx.on_message(filters.me & filters.command("kick", "-"))
 async def ping(app: Noxx, message):
-    await message.edit("`Banning`")
+    await message.edit("`Kicking`")
 
     chat_id = message.chat.id
     user_id = message.from_user.id
@@ -39,7 +39,6 @@ async def ping(app: Noxx, message):
     elif (message.reply_to_message):
         reply_to_user_id = message.reply_to_message.from_user.id
         is_user_info_given = True
-    print(message.reply_to_message)
     if is_user_info_given:
         
         try:

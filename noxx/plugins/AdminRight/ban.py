@@ -38,7 +38,6 @@ async def ping(app: Noxx, message):
     elif (message.reply_to_message):
         reply_to_user_id = message.reply_to_message.from_user.id
         is_user_info_given = True
-    print(message.reply_to_message)
     if is_user_info_given:
         
         try:
