@@ -1,10 +1,11 @@
 from pyrogram import Client, filters
 
 from datetime import datetime
+from .constants import HANDLING_KEY
 from ..noxx import Noxx
 
 
-@Noxx.on_message(filters.me & filters.command("ping", "-"))
+@Noxx.on_message(filters.me & filters.command("ping", HANDLING_KEY))
 async def ping(app: Noxx, message):
     start_time = datetime.now()
     await message.edit("Pong!")

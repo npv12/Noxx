@@ -2,9 +2,7 @@ from pyrogram import Client, filters
 import asyncio
 from datetime import datetime
 from ...noxx import Noxx
-from ..constants import HANDLING_KEY
-
-TG_MAX_SELECT_LEN = 100
+from ..constants import HANDLING_KEY, TG_MAX_SELECT_LEN
 
 @Noxx.on_message(filters.me & filters.command("purge", HANDLING_KEY))
 async def purge(app: Noxx, message):
