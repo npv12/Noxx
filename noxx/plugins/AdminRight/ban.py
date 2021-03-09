@@ -1,10 +1,11 @@
 from pyrogram import Client, filters
 import asyncio
 from ...noxx import Noxx
+from ..constants import HANDLING_KEY
 
 TG_MAX_SELECT_LEN = 100
 
-@Noxx.on_message(filters.me & filters.command("ban", "-"))
+@Noxx.on_message(filters.me & filters.command("ban", HANDLING_KEY))
 async def ban(app: Noxx, message):
     await message.edit("`Banning`")
 

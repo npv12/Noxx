@@ -1,8 +1,9 @@
 from pyrogram import Client, filters
 import asyncio
 from ...noxx import Noxx
+from ..constants import HANDLING_KEY
 
-@Noxx.on_message(filters.me & filters.command("del", "-"))
+@Noxx.on_message(filters.me & filters.command("del", HANDLING_KEY))
 async def deletemes(app: Noxx, message):
     await message.edit("`Purging`")
 

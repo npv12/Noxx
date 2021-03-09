@@ -2,10 +2,11 @@ from pyrogram import Client, filters
 import asyncio
 from time import time
 from ...noxx import Noxx
+from ..constants import HANDLING_KEY
 
 TG_MAX_SELECT_LEN = 100
 
-@Noxx.on_message(filters.me & filters.command("unban", "-"))
+@Noxx.on_message(filters.me & filters.command("unban", HANDLING_KEY))
 async def unban(app: Noxx, message):
     await message.edit("`Unbanning`")
 
