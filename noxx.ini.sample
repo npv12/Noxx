@@ -1,0 +1,4 @@
+# Acquire credentials from https://my.telegram.org
+[noxx]
+api_id = 123456
+api_hash = 123456abcdef123456abcdef
