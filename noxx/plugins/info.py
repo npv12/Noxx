@@ -10,7 +10,7 @@ from .constants import HANDLING_KEY
 
 #Kanged from https://github.com/okay-retard/ZectUserBot/blob/master/Zect/modules/whois.py
 
-def ReplyCheck(message: Message):
+def reply_check(message: Message):
     reply_id = None
 
     if message.reply_to_message:
@@ -31,12 +31,12 @@ infotext = (
 )
 
 
-def FullName(user: User):
+def full_name(user: User):
     return user.first_name + " " + user.last_name if user.last_name else user.first_name
 
 
-@Noxx.on_message(filters.command("info", HANDLING_KEY) & filters.me)
-async def whois(app: Noxx, message):
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("info", HANDLING_KEY))
+async def info(app: Noxx, message):
     cmd = message.command
     if not message.reply_to_message and len(cmd) == 1:
         get_user = message.from_user.id
@@ -57,7 +57,7 @@ async def whois(app: Noxx, message):
     if not pfp:
         await message.edit_text(
             infotext.format(
-                full_name=FullName(user),
+                full_name=full_name(user),
                 user_id=user.id,
                 first_name=user.first_name,
                 last_name=user.last_name or "",
@@ -72,7 +72,7 @@ async def whois(app: Noxx, message):
             message.chat.id,
             dls,
             caption=infotext.format(
-                full_name=FullName(user),
+                full_name=full_name(user),
                 user_id=user.id,
                 first_name=user.first_name,
                 last_name=user.last_name or "",
@@ -85,7 +85,7 @@ async def whois(app: Noxx, message):
         os.remove(dls)
 
 
-@Noxx.on_message(filters.command("id", HANDLING_KEY) & filters.me)
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.command("id", HANDLING_KEY) & filters.me)
 async def id(app: Noxx, message):
     cmd = message.command
     chat_id = message.chat.id

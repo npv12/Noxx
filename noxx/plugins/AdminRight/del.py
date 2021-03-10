@@ -3,7 +3,7 @@ import asyncio
 from ...noxx import Noxx
 from ..constants import HANDLING_KEY, TG_MAX_SELECT_LEN
 
-@Noxx.on_message(filters.me & filters.command("del", HANDLING_KEY))
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("del", HANDLING_KEY))
 #TODO I should probably try to improve the codebase so that the use of ifcase is reduced. but lets see. :)
 async def deletemes(app: Noxx, message):
     await message.edit("`Purging`")

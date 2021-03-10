@@ -5,7 +5,7 @@ from .constants import HANDLING_KEY
 from ..noxx import Noxx
 
 
-@Noxx.on_message(filters.me & filters.command("ping", HANDLING_KEY))
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("ping", HANDLING_KEY))
 async def ping(app: Noxx, message):
     start_time = datetime.now()
     await message.edit("Pong!")

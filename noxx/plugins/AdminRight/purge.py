@@ -60,7 +60,7 @@ async def slow_purge(app,message,chat_id):
     await message.delete()
 
 
-@Noxx.on_message(filters.me & filters.command("purge", HANDLING_KEY))
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("purge", HANDLING_KEY))
 async def purge(app: Noxx, message):
     await message.edit("`Purging`")
 

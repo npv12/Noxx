@@ -6,7 +6,7 @@ from ..constants import HANDLING_KEY
 
 TG_MAX_SELECT_LEN = 100
 
-@Noxx.on_message(filters.me & filters.command("unban", HANDLING_KEY))
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("unban", HANDLING_KEY))
 async def unban(app: Noxx, message):
     await message.edit("`Unbanning`")
 
