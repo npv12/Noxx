@@ -1,8 +1,8 @@
 from pyrogram import Client, filters
 
 from datetime import datetime
-from .constants import HANDLING_KEY
-from ..noxx import Noxx
+from ..constants import HANDLING_KEY
+from ...noxx import Noxx
 
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("ping", HANDLING_KEY))

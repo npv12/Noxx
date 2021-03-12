@@ -1,7 +1,7 @@
-from .constants import HANDLING_KEY
+from ..constants import HANDLING_KEY
 from pyrogram import filters
 
-from ..noxx import Noxx
+from ...noxx import Noxx
 
 
 
