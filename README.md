@@ -5,8 +5,9 @@ You have to obtain your personal API credentials from [Telegram](https://my.tele
 Fill these into the [sample config file](noxx.ini.sample).
 
 1. `git clone https://github.com/npv12/Noxx.git`
-2. Copy or rename [`noxx.ini.sample`](noxx.ini.sample) to `noxx.ini` and fill it out as instructed
-3. Start Noxx with `python -m noxx`
+2. `pip install -r requirements.txt`
+3. Copy or rename [`noxx.ini.sample`](noxx.ini.sample) to `noxx.ini` and fill it out as instructed
+4. Start Noxx with `python -m noxx`
 
 You can now log in via Pyrogram and send `.alive` to see if Noxx is working.
 
@@ -21,3 +22,4 @@ You can now log in via Pyrogram and send `.alive` to see if Noxx is working.
 ```
 ## Credit
 https://github.com/ColinShark/PyroBot for its readme :D and the initial code base is inspired from it
+
