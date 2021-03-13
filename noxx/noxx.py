@@ -7,15 +7,14 @@ from . import __version__
 
 class Noxx(Client):
     def __init__(self):
-        name = self.__class__.__name__.lower()
-        config_file = f"{name}.ini"
+        config_file = "noxx.ini"
 
         config = ConfigParser()
         config.read(config_file)
 
-        plugins = dict(root=f"{name}/plugins")
+        plugins = dict(root="noxx/plugins")
         super().__init__(
-            session_name=name,
+            session_name="noxx",
             app_version=f"Noxx v{__version__}",
             workdir=".",
             config_file=config_file,
@@ -30,3 +29,12 @@ class Noxx(Client):
     def stop(self):
         super().stop()
         print("I am off to sleep now")
+
+def get_config_var(identifier):
+    config_file = "noxx.ini"
+    config = ConfigParser()
+    config.read(config_file)
+    try:
+        return config.get('pyrogram', identifier)
+    except AttributeError:
+        return None
