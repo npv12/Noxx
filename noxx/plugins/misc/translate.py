@@ -1,7 +1,5 @@
 from google_trans_new import google_translator
 from pyrogram import filters
-from inspect import getfullargspec
-from pyrogram.types import Message
 from ...noxx import Noxx
 import asyncio
 from ..constants import HANDLING_KEY

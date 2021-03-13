@@ -1,10 +1,8 @@
 import os
-from datetime import datetime
-
 from pyrogram import filters
-from pyrogram.types import User, InlineKeyboardMarkup, InlineKeyboardButton, Message
-from pyrogram.raw import functions
+from pyrogram.types import User, Message
 from pyrogram.errors import PeerIdInvalid
+
 from ..noxx import Noxx
 from .constants import HANDLING_KEY
 

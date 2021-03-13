@@ -1,5 +1,4 @@
 import asyncio
-from html import escape
 from pyrogram import filters
 from pyrogram.types import Message
 import requests, json 
