@@ -28,17 +28,7 @@ async def download(app: Noxx, message):
                 downloadable_message = message
                 break
 
-    if(downloadable_message == None):
-        await message.edit("This is not a valid media")
-    else:
-        try:
-            text = 'Downloading your file....\n'
-            home_dir = await downloadable_message.download(home_dir, progress=progress_callback, progress_args=(message, text, False))
-            await message.edit(f"Download complete. Saved to `{home_dir}`")
-            await asyncio.sleep(5)
-            await message.delete()
-        except MessageIdInvalid:
-            await message.reply_text('Download cancelled!')
+    download_helper_tg(message, downloadable_message)
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command(["silentdownload","sdl"], HANDLING_KEY))
 async def silent_download(app: Noxx, message):
@@ -60,16 +50,16 @@ async def silent_download(app: Noxx, message):
                 downloadable_message = message
                 break
     await message.delete()
+    download_helper_tg(saved_message, downloadable_message)
+
+#message is the message which is edited to show the realtime status. downloadable_message is the message which contains the file
+def download_helper_tg(message, downloadable_message):
     if(downloadable_message == None):
-        await saved_message.edit("This is not a valid media")
+        await message.edit("This is not a valid media")
     else:
         try:
             text = 'Downloading your file....\n'
-            home_dir = await downloadable_message.download(home_dir, progress=progress_callback, progress_args=(saved_message, text, False))
-            await saved_message.edit(f"Download complete. Saved to `{home_dir}`")
-            await asyncio.sleep(5)
-            await saved_message.delete()
+            home_dir = await downloadable_message.download(home_dir, progress=progress_callback, progress_args=(message, text, False))
+            await message.edit(f"Download complete. Saved to `{home_dir}`")
         except MessageIdInvalid:
-            await saved_message.reply_text('Download cancelled!')
-
-        
+            await message.reply_text('Download cancelled!')
