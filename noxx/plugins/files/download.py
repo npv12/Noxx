@@ -28,7 +28,7 @@ async def download(app: Noxx, message):
                 downloadable_message = message
                 break
 
-    await download_helper_tg(message, downloadable_message)
+    await download_helper_tg(message, downloadable_message, home_dir)
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command(["silentdownload","sdl"], HANDLING_KEY))
 async def silent_download(app: Noxx, message):
@@ -50,10 +50,10 @@ async def silent_download(app: Noxx, message):
                 downloadable_message = message
                 break
     await message.delete()
-    await download_helper_tg(saved_message, downloadable_message)
+    await download_helper_tg(saved_message, downloadable_message, home_dir)
 
 #message is the message which is edited to show the realtime status. downloadable_message is the message which contains the file
-async def download_helper_tg(message, downloadable_message):
+async def download_helper_tg(message, downloadable_message, home_dir):
     if(downloadable_message == None):
         await message.edit("This is not a valid media")
     else:
