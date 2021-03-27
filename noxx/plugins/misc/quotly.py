@@ -9,9 +9,9 @@ BOT = '@QuotLyBot'
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command(['q','quote'], HANDLING_KEY))
 async def q_maker(app:Noxx, message):
     chat_id = message.chat.id
-    message.edit("Making it into a quote :D")
+    await message.edit("Making it into a quote :D")
     if not message.reply_to_message:
-        await message.edit("**Reply a message with text.**") 
+        await message.edit("**Reply a message with text.**")
         return
     await message.reply_to_message.forward(BOT)
     is_sticker = False

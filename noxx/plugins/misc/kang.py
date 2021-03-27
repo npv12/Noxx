@@ -143,6 +143,7 @@ async def kang(app: Noxx, message):
                 return
             await app.send_message("Stickers", emoji_)
             await get_response(app,message)
+            time.sleep(0.2)
             await app.send_message("Stickers", "/done")
         else:
             await message.edit("`Brewing a new Pack...`")
@@ -175,6 +176,8 @@ async def kang(app: Noxx, message):
             await app.send_message("Stickers", packname)
         out = f"[kanged](t.me/addstickers/{packname})"
         await message.edit(f"**Sticker** {out}**!**")
+        await asyncio.sleep(2)
+        await message.delete()
         await app.read_history("Stickers")
         if os.path.exists(str(photo)):
             os.remove(photo)

@@ -1,5 +1,5 @@
 # Acquire credentials from https://my.telegram.org
-[noxx]
+[pyrogram]
 api_id = 123456
 api_hash = 123456abcdef123456abcdef
 download_location = 'LOCATION OF WHERE FILES SHOULD BE DOWNLOADED'

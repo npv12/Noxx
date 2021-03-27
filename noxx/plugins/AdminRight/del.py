@@ -2,33 +2,18 @@ from pyrogram import Client, filters
 import asyncio
 from ...noxx import Noxx
 from ..constants import HANDLING_KEY, TG_MAX_SELECT_LEN
+from .purge import fast_purge, slow_purge, check_delete_perm
 
-@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("del", HANDLING_KEY))
-#TODO I should probably try to improve the codebase so that the use of ifcase is reduced. but lets see. :)
+@Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command(["del", "d"], HANDLING_KEY))
 async def deletemes(app: Noxx, message):
-    await message.edit("`Purging`")
-
-    can_delete = True
+    await message.edit("`Deleting`")
 
     chat_id = message.chat.id
     user_id = message.from_user.id
 
     #If the user cannot delete message then skip it :)
-    if message.chat.type in ["supergroup", "channel", "group"]:
-        check_status = await app.get_chat_member(
-            chat_id=chat_id,
-            user_id=user_id
-        )
-        if (check_status.can_delete_messages == None):
-            can_delete=False
-
-    #check if user can delete message.
-    if(not can_delete):
-        await message.edit("You can't delete messages in this group")
-        await asyncio.sleep(2)
-        await message.delete()
-        return 
-
+    if(not await check_delete_perm(app, message)):
+        return
 
     #check if user replied to a message. or else do nothing
     if message.reply_to_message:
@@ -36,42 +21,15 @@ async def deletemes(app: Noxx, message):
 
             #only supergroups have sequential message_id. so currently it will only delete messages in supergroups in more than one number
             if message.chat.type not in ["supergroup", "channel"]:
-                await message.edit("This can only be used in supergroups")
-                await asyncio.sleep(2)
-                await message.delete()
+                await slow_purge(app, message,chat_id, number_of_messages = int(message.command[1]))
                 return
-            number_of_messages_deleted = int(message.command[1])
-            purge_start_message = message.reply_to_message.message_id
-            purge_end_message = purge_start_message + number_of_messages_deleted + 1
 
-            #so that it doesn't try deleting stuffs beyound necessary
-            if(purge_end_message > message.message_id):
-                purge_end_message=message.message_id
-            message_ids = []
-            for a_s_message_id in range(purge_start_message,purge_end_message):
-                message_ids.append(a_s_message_id)
-                if len(message_ids) == TG_MAX_SELECT_LEN:
-                    await app.delete_messages(
-                        chat_id=chat_id,
-                        message_ids=message_ids,
-                        revoke=False
-                    )
-                    message_ids = []
-            if len(message_ids) > 0:
-                await app.delete_messages(
-                    chat_id=chat_id,
-                    message_ids=message_ids,
-                    revoke=False
-                )
+            await fast_purge(app, message,chat_id, number_of_messages = int(message.command[1]))
 
         else:
             #delete a single message if no arg is given
             del_message = message.reply_to_message
             await del_message.delete()
-        
-        await message.edit("`Message deleted`")
-        await asyncio.sleep(2)
-        await message.delete()
 
     else:
         await message.edit("`Reply to a message to delete`")

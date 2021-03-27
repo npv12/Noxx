@@ -1,7 +1,7 @@
 import asyncio
 from pyrogram import filters
 from pyrogram.types import Message
-import requests, json 
+import requests, json
 
 from ...noxx import Noxx, get_config_var
 from ..constants import HANDLING_KEY
@@ -18,25 +18,24 @@ async def ping(app: Noxx, message):
         await asyncio.sleep(2)
         await message.delete()
         return
-    
+
     loc = message.command[1]
     OPENWEATHER_API = OPENWEATHER_API.replace('"','')
     openweather_url = f"http://api.openweathermap.org/data/2.5/weather?q={loc}&appid={OPENWEATHER_API}"
-    response = requests.get(openweather_url) 
+    response = requests.get(openweather_url)
     response_json = response.json()
-
     if(response_json["cod"] == '401'):
         await message.edit("Incorrect API key")
 
     elif(response_json["cod"]!= '404'):
-        temp = response_json['main']['temp']
-        feels_like = response_json['main']['feels_like']
+        temp = response_json['main']['temp'] - 273
+        feels_like = response_json['main']['feels_like'] - 273
         pressure = response_json['main']['pressure']
         humidity = response_json['main']['humidity']
-        visibility = response_json['visibility']
+        visibility = response_json['visibility'] /1000
         condition = response_json['weather'][0]['main']
         name = response_json['name']
-        output_text = f"`The weather condition {name} is {condition}\nMore details are as follows:- \n\n Temperature = {temp}\n Feels like = {feels_like} \n Pressure = {pressure} \n Visibility = {visibility} \n Humidity = {humidity}`"
+        output_text = f"`The weather condition {name} is {condition}\nMore details are as follows:- \n\n Temperature = {temp} ℃\n Feels like = {feels_like} ℃ \n Pressure = {pressure} Pa \n Visibility = {visibility} km \n Humidity = {humidity}`"
         await message.edit(output_text)
     else:
-        print("Please check your internet connection")
+        await message.edit("Please don't force us to find weather of an imaginary place :D")

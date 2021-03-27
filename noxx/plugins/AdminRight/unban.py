@@ -3,6 +3,7 @@ import asyncio
 from time import time
 from ...noxx import Noxx
 from ..constants import HANDLING_KEY
+from .kick import check_kick
 
 TG_MAX_SELECT_LEN = 100
 
@@ -19,20 +20,10 @@ async def unban(app: Noxx, message):
         await message.edit("`You need to unblock not unban you retard`")
         await asyncio.sleep(2)
         await message.delete()
-        return 
-    check_status = await app.get_chat_member(
-        chat_id=chat_id,
-        user_id=user_id
-    )
-    if (check_status.can_restrict_members == None):
-            can_kick=False
+        return
+    if(not await check_kick(app,message)):
+        return
 
-    if(not can_kick):
-        await message.edit("`You can't unban people in this group`")
-        await asyncio.sleep(2)
-        await message.delete()
-        return 
-    
     is_user_info_given = False
     if (len(message.command)>1):
         reply_to_user_id = (await app.get_users(message.command[1])).id
