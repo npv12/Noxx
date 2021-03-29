@@ -35,6 +35,7 @@ def full_name(user: User):
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("info", HANDLING_KEY))
 async def info(app: Noxx, message):
+    await message.edit("Fetching info")
     cmd = message.command
     if not message.reply_to_message and len(cmd) == 1:
         get_user = message.from_user.id
