@@ -7,6 +7,7 @@ from ..constants import HANDLING_KEY
 TG_MAX_SELECT_LEN = 100
 
 async def check_kick(app, message):
+    can_kick = True
     chat_id = message.chat.id
     user_id = message.from_user.id
     check_status = await app.get_chat_member(
@@ -17,11 +18,10 @@ async def check_kick(app, message):
             can_kick=False
 
     if(not can_kick):
-        await message.edit("`You can't kick people in this group`")
+        await message.edit("`You don't have enough rights`")
         await asyncio.sleep(2)
         await message.delete()
-        return False
-    return True
+    return can_kick
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("kick", HANDLING_KEY))
 async def kick(app: Noxx, message):
