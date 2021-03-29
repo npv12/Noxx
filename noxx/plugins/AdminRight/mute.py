@@ -33,71 +33,83 @@ def time_for_mute(temp):
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("mute", HANDLING_KEY))
 async def mute(app: Noxx, message):
-    chat_id = message.chat.id
-    user_id = -1
+    try:
+        chat_id = message.chat.id
+        user_id = -1
 
-    if not await check_kick(app,message):
-        await message.edit("You do not have enough rights")
+        if not await check_kick(app,message):
+            await message.edit("You do not have enough rights")
+            await asyncio.sleep(2)
+            await message.delete()
+            return
+
+        elif message.reply_to_message:
+            user_id = message.reply_to_message.from_user.id
+
+        elif len(message.command) > 1:
+            user_id = message.command[1]
+
+        else:
+            await message.edit("Reply to a user to mute")
+            await asyncio.sleep(2)
+            await message.delete()
+            return
+
+        time_to_mute = -1
+
+        if(message.reply_to_message and len(message.command)>1):
+            temp = re.split('(\d+)', message.command[1])
+            time_to_mute = time_for_mute(temp)
+        elif(len(message.command)>2):
+            temp = re.split('(\d+)', message.command[2])
+            time_to_mute = time_for_mute(temp)
+
+        if(time_to_mute == -1):
+            await app.restrict_chat_member(chat_id, user_id, ChatPermissions())
+            await message.edit(f"{message.reply_to_message.from_user.first_name} has been muted indefinately.")
+            return
+
+        user = await app.get_users(user_id)
+        await app.restrict_chat_member(chat_id, user_id, ChatPermissions(), int(time() + time_to_mute))
+        await message.edit(f"{user.first_name} has been muted for {time_to_mute}s.")
+        return
+    except Exception as e:
+        print(e)
+        await message.edit("Failed to find the song")
         await asyncio.sleep(2)
         await message.delete()
-        return
-
-    elif message.reply_to_message:
-        user_id = message.reply_to_message.from_user.id
-
-    elif len(message.command) > 1:
-        user_id = message.command[1]
-
-    else:
-        await message.edit("Reply to a user to mute")
-        await asyncio.sleep(2)
-        await message.delete()
-        return
-
-    time_to_mute = -1
-
-    if(message.reply_to_message and len(message.command)>1):
-        temp = re.split('(\d+)', message.command[1])
-        time_to_mute = time_for_mute(temp)
-    elif(len(message.command)>2):
-        temp = re.split('(\d+)', message.command[2])
-        time_to_mute = time_for_mute(temp)
-
-    if(time_to_mute == -1):
-        await app.restrict_chat_member(chat_id, user_id, ChatPermissions())
-        await message.edit(f"{message.reply_to_message.from_user.first_name} has been muted indefinately.")
-        return
-
-    user = await app.get_users(user_id)
-    await app.restrict_chat_member(chat_id, user_id, ChatPermissions(), int(time() + time_to_mute))
-    await message.edit(f"{user.first_name} has been muted for {time_to_mute}s.")
-    return
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("unmute", HANDLING_KEY))
 async def unmute(app: Noxx, message):
-    chat_id = message.chat.id
-    user_id = -1
+    try:
+        chat_id = message.chat.id
+        user_id = -1
 
-    if not await check_kick(app,message):
-        await message.edit("You do not have enough rights")
+        if not await check_kick(app,message):
+            await message.edit("You do not have enough rights")
+            await asyncio.sleep(2)
+            await message.delete()
+            return
+
+        elif message.reply_to_message:
+            user_id = message.reply_to_message.from_user.id
+
+        elif len(message.command) > 1:
+            user_id = message.command[1]
+
+        else:
+            await message.edit("Reply to a user to mute")
+            await asyncio.sleep(2)
+            await message.delete()
+            return
+
+        user = await app.get_users(user_id)
+
+        await app.restrict_chat_member(chat_id, user_id, permissions = unmute_permission)
+        await message.edit(f"{user.first_name} has been unmuted.")
+        return
+    except Exception as e:
+        print(e)
+        await message.edit("Failed to find the song")
         await asyncio.sleep(2)
         await message.delete()
-        return
-
-    elif message.reply_to_message:
-        user_id = message.reply_to_message.from_user.id
-
-    elif len(message.command) > 1:
-        user_id = message.command[1]
-
-    else:
-        await message.edit("Reply to a user to mute")
-        await asyncio.sleep(2)
-        await message.delete()
-        return
-
-    user = await app.get_users(user_id)
-
-    await app.restrict_chat_member(chat_id, user_id, permissions = unmute_permission)
-    await message.edit(f"{user.first_name} has been unmuted.")
-    return

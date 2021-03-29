@@ -94,23 +94,29 @@ async def check_delete_perm(app,message):
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("purge", HANDLING_KEY))
 async def purge(app: Noxx, message):
-    await message.edit("`Purging`")
+    try:
+        await message.edit("`Purging`")
 
-    can_delete = True
+        can_delete = True
 
-    chat_id = message.chat.id
-    user_id = message.from_user.id
+        chat_id = message.chat.id
+        user_id = message.from_user.id
 
-    #If the user cannot delete message then skip it :)
-    if(not await check_delete_perm(app, message)):
-        return
+        #If the user cannot delete message then skip it :)
+        if(not await check_delete_perm(app, message)):
+            return
 
-    if message.reply_to_message:
-        if message.chat.type in ["supergroup", "channel"]:
-            await fast_purge(app,message,chat_id)
+        if message.reply_to_message:
+            if message.chat.type in ["supergroup", "channel"]:
+                await fast_purge(app,message,chat_id)
+            else:
+                await slow_purge(app,message,chat_id)
         else:
-            await slow_purge(app,message,chat_id)
-    else:
-        await message.edit(f"`Reply to a message to delete`")
+            await message.edit(f"`Reply to a message to delete`")
+            await asyncio.sleep(2)
+            await message.delete()
+    except Exception as e:
+        print(e)
+        await message.edit("Failed to find the song")
         await asyncio.sleep(2)
         await message.delete()
