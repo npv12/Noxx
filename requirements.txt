@@ -5,3 +5,4 @@ datetime
 TgCrypto
 google_trans_new
 pymongo
+requests
