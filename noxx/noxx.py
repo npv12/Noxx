@@ -13,11 +13,11 @@ class Noxx(Client):
         config.read(config_file)
 
         plugins = dict(root="noxx/plugins")
+        print(USERBOT_SESSION)
         super().__init__(
-            USERBOT_SESSION if USERBOT_SESSION is not None else name,
+            USERBOT_SESSION,
             api_id=API_ID,
             api_hash=API_HASH,
-            config_file=config_file,
             plugins=dict(root=f"{name}/plugins"),
             workdir="./",
             app_version=f"Noxx v{__version__}",
