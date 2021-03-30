@@ -9,7 +9,8 @@ from pyrogram.raw.functions.messages import GetStickerSet
 from pyrogram.raw.types import InputStickerSetShortName
 from pyrogram.errors import YouBlockedUser, StickersetInvalid
 
-from ...noxx import Noxx, get_config_var
+from ...noxx import Noxx
+from noxx import STICKER_PACK_NAME
 from ..constants import HANDLING_KEY
 
 
@@ -69,7 +70,7 @@ async def kang(app: Noxx, message):
             u_name = "@" + u_name
         else:
             u_name = user.first_name or user.id
-        packname = get_config_var('sticker_pack_name')
+        packname = STICKER_PACK_NAME
         packname = packname.replace('"','')
         packname += f"{user.id}"
         custom_packnick = f"{user.id}'s fun pack"

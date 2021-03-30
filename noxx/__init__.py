@@ -8,7 +8,7 @@ if version_info[:2] < (3, 6):
     print("Pyrogram needs version 3.6 or more")
     quit()
 ENV = bool(os.environ.get('ENV', False))
-print(ENV)
+print("Setting up ENV")
 if ENV:
     # Pyrogram details
     API_ID = os.environ.get("API_ID", None)
@@ -58,3 +58,4 @@ else:
 
     #Stickers
     STICKER_PACK_NAME = config.get("pyrogram", "sticker_pack_name")
+print("Env set properly")

@@ -1,9 +1,6 @@
 
 import pymongo
-from ..noxx import get_config_var
-
-MONGO_URL = get_config_var('mongo_url')
-DB_NAME = get_config_var('db_name') or 'Noxx'
+from noxx import MONGO_URL, DB_NAME
 
 def init():
     client = pymongo.MongoClient(MONGO_URL)

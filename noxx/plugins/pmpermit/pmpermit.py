@@ -3,12 +3,10 @@ from pyrogram.types import User, Message
 from pyrogram.errors import FloodWait
 from time import sleep
 
-from ...noxx import Noxx, get_config_var
+from ...noxx import Noxx
 from ...database.pmpermit import PmPermit
 from ..constants import HANDLING_KEY
-
-PM_PERMIT = get_config_var('pm_permit')
-PM_LIMIT = int(get_config_var('pm_limit'))
+from noxx import PM_PERMIT, PM_LIMIT
 
 FIRST_PM_MESSAGE = "`Hi there!! I am Noxx \n\nMy owner hasn't approved you to PM him yet. Please wait till he comes back online.\n\nThank you for your patience`"
 WARN_MESSAGE = f"`Repeated messaging him won't help. Also note that you will be blocked if you message him a lot >w<`"

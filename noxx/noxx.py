@@ -13,7 +13,6 @@ class Noxx(Client):
         config.read(config_file)
 
         plugins = dict(root="noxx/plugins")
-        print(USERBOT_SESSION)
         super().__init__(
             USERBOT_SESSION,
             api_id=API_ID,
@@ -30,12 +29,3 @@ class Noxx(Client):
     def stop(self):
         super().stop()
         print("I am off to sleep now")
-
-def get_config_var(identifier):
-    config_file = "noxx.ini"
-    config = ConfigParser()
-    config.read(config_file)
-    try:
-        return config.get('pyrogram', identifier)
-    except AttributeError:
-        return None

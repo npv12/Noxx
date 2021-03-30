@@ -3,13 +3,13 @@ from pyrogram import filters
 from pyrogram.types import Message
 import requests, json
 
-from ...noxx import Noxx, get_config_var
+from ...noxx import Noxx
+from noxx import OPENWEATHER_API
 from ..constants import HANDLING_KEY
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("weather", HANDLING_KEY))
 async def ping(app: Noxx, message):
     await message.edit("Fetching weather!")
-    OPENWEATHER_API = get_config_var("openweather_api")
     if(OPENWEATHER_API == ""):
         await message.edit("No proper openweather api found")
 
@@ -20,7 +20,6 @@ async def ping(app: Noxx, message):
         return
 
     loc = message.command[1]
-    OPENWEATHER_API = OPENWEATHER_API.replace('"','')
     openweather_url = f"http://api.openweathermap.org/data/2.5/weather?q={loc}&appid={OPENWEATHER_API}"
     response = requests.get(openweather_url)
     response_json = response.json()
