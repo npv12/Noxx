@@ -7,3 +7,5 @@ openweather_api = "OPENWEATHER API KEY"
 sticker_pack_name = "NAME OF A KANG PACK. Should start with an alphabet and should not have any special characters except '_'"
 mongo_url = MONGO_DAtABASE_URL
 db_name = Noxx #Enter your fav name for db
+pm_permit = False
+pm_limit = 5
