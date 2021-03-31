@@ -30,6 +30,9 @@ async def deletemes(app: Noxx, message):
                 #delete a single message if no arg is given
                 del_message = message.reply_to_message
                 await del_message.delete()
+                await message.edit("Message deleted")
+                await asyncio.sleep(2)
+                await message.delete()
 
         else:
             await message.edit("`Reply to a message to delete`")
