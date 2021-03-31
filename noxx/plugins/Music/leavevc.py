@@ -11,4 +11,7 @@ from .vc import voice_chat
 async def leave_vc(app: Noxx, message):
     await message.edit("`Noxx is going away!! Ciao`")
     group_call = voice_chat.group_call
+    if(voice_chat.is_playing):
+        voice_chat.is_playing = False
+        voice_chat.current = None
     await group_call.stop()

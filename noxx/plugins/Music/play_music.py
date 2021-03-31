@@ -45,6 +45,7 @@ async def play_track(app: Noxx, message):
 
     # add to playlist
     playlist.append(audio_message)
+    voice_chat.is_playing = True
 
     if len(playlist) == 1:
         reply = await message.reply_text("`Downloading the file to play`")
@@ -52,6 +53,7 @@ async def play_track(app: Noxx, message):
         group_call.input_filename = os.path.join(f'{home_dir}',f"{playlist[0].audio.file_unique_id}.raw")
         await reply.delete()
         print(f"- STARTED PLAYING: {playlist[0].audio.title}")
+        voice_chat.current = 0
 
     #Keep downloaing other music files in the playlist
     for track in playlist[:2]:
