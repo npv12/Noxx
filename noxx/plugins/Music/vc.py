@@ -6,6 +6,6 @@ class VoiceChatMusic(object):
         self.chat_id = None
         self.is_playing = False
         self.playlist = []
-        self.current = 0
+        self.current = ""
 
 voice_chat = VoiceChatMusic()

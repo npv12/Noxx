@@ -13,8 +13,9 @@ from ...noxx import Noxx
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("current", HANDLING_KEY))
 async def show_current_music(app: Noxx, message):
     playlist = voice_chat.playlist
+    current = voice_chat.current
     if not voice_chat.is_playing:
         await message.edit("No song is being played")
         return
 
-    await message.edit(f"`Current song is {playlist[0].audio.title}\n`")
+    await message.edit(f"`Current song is {current}\n`")

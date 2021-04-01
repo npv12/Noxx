@@ -51,4 +51,6 @@ async def skip_current_playing():
 
     if len(playlist) == 1:
         return
+
+    voice_chat.current = playlist[0].audio.title
     await download_audio(playlist[1])
