@@ -22,4 +22,5 @@ You can now log in via Pyrogram and send `.alive` to see if Noxx is working.
 ```
 ## Credit
 https://github.com/ColinShark/PyroBot for its readme :D and the initial code base is inspired from it
+https://github.com/callsmusic/tgvc-userbot for its music for voice call capabilities, Some code was inspired from it
 
