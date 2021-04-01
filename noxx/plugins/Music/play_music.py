@@ -58,3 +58,34 @@ async def play_track(app: Noxx, message):
     #Keep downloaing other music files in the playlist
     for track in playlist[:2]:
         await download_audio(track)
+
+
+Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("fplayvc", HANDLING_KEY))
+async def force_play_track(app: Noxx, message):
+    await message.edit("`Noxx is going to play music immediately`")
+    group_call = voice_chat.group_call
+
+    if not group_call.is_connected:
+        await message.edit("No voice chat is active. Enable one and try again")
+        await asyncio.sleep(2)
+        await message.delete()
+
+    # check audio file is supplied
+    if message.audio:
+        audio_message = message
+    elif message.reply_to_message and message.reply_to_message.audio:
+        audio_message = message.reply_to_message
+    else:
+        await message.edit("`This is not an audio file!!`")
+        await asyncio.sleep(2)
+        await message.delete()
+        return
+
+    home_dir = os.path.abspath(os.path.expanduser(''))
+    home_dir += '/noxx/downloads'
+
+    reply = await message.reply_text("`Downloading the file to play`")
+    await download_audio(audio_message)
+    group_call.input_filename = os.path.join(f'{home_dir}',f"{audio_message.audio.file_unique_id}.raw")
+    await reply.delete()
+    print(f"- STARTED PLAYING: {audio_message.audio.title}")
