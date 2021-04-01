@@ -7,3 +7,5 @@ google_trans_new
 pymongo
 requests
 dnspython
+pytgcalls
+ffmpeg-python
