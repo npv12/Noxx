@@ -10,13 +10,17 @@ from ...noxx import Noxx
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("joinvc", HANDLING_KEY))
 async def join_vc(app: Noxx, message):
     await message.edit("`Noxx is joining the voice chat`")
-    group_call = voice_chat.group_call
-    group_call.client = app
-    if group_call.is_connected:
-        await message.reply_text("`Noxx is already in the voice chat`")
-    else:
-        await group_call.start(message.chat.id)
-        await message.edit("`Noxx joined :D`")
+    try:
+        group_call = voice_chat.group_call
+        group_call.client = app
+        if group_call.is_connected:
+            await message.reply_text("`Noxx is already in the voice chat`")
+        else:
+            await group_call.start(message.chat.id)
+            await message.edit("`Noxx joined :D`")
+    except Exception:
+        print("Exception")
+        await message.edit("Something went wrong")
 
 #pytgcalls
 @voice_chat.group_call.on_network_status_changed
