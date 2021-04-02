@@ -49,6 +49,6 @@ async def unban(app: Noxx, message):
             await message.delete()
     except Exception as e:
         print(e)
-        await message.edit("Failed to find the song")
+        await message.edit("Failed to unban the user")
         await asyncio.sleep(2)
         await message.delete()

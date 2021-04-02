@@ -72,9 +72,9 @@ async def kick(app: Noxx, message):
             await message.edit("`Reply to a user to kick`")
             await asyncio.sleep(2)
             await message.delete()
-            
+
     except Exception as e:
         print(e)
-        await message.edit("Failed to find the song")
+        await message.edit("Failed to kick the user")
         await asyncio.sleep(2)
         await message.delete()

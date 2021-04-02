@@ -110,6 +110,6 @@ async def unmute(app: Noxx, message):
         return
     except Exception as e:
         print(e)
-        await message.edit("Failed to find the song")
+        await message.edit("Failed to mute the user")
         await asyncio.sleep(2)
         await message.delete()
