@@ -35,73 +35,82 @@ def full_name(user: User):
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("info", HANDLING_KEY))
 async def info(app: Noxx, message):
-    await message.edit("Fetching info")
-    cmd = message.command
-    if not message.reply_to_message and len(cmd) == 1:
-        get_user = message.from_user.id
-    elif len(cmd) == 1:
-        get_user = message.reply_to_message.from_user.id
-    elif len(cmd) > 1:
-        get_user = cmd[1]
-        try:
-            get_user = int(cmd[1])
-        except ValueError:
-            pass
     try:
-        user = await app.get_users(get_user)
-    except PeerIdInvalid:
-        await message.reply("I don't know that User.")
-        return
-    pfp = await app.get_profile_photos(user.id)
-    if not pfp:
-        await message.edit_text(
-            infotext.format(
-                full_name=full_name(user),
-                user_id=user.id,
-                first_name=user.first_name,
-                last_name=user.last_name or "",
-                username=user.username or "",
-            ),
-            disable_web_page_preview=True,
-        )
-    else:
-        dls = await app.download_media(pfp[0]["file_id"], file_name=f"{user.id}.png")
+        await message.edit("Fetching info")
+        cmd = message.command
+        if not message.reply_to_message and len(cmd) == 1:
+            get_user = message.from_user.id
+        elif len(cmd) == 1:
+            get_user = message.reply_to_message.from_user.id
+        elif len(cmd) > 1:
+            get_user = cmd[1]
+            try:
+                get_user = int(cmd[1])
+            except ValueError:
+                pass
+        try:
+            user = await app.get_users(get_user)
+        except PeerIdInvalid:
+            await message.reply("I don't know that User.")
+            return
+        pfp = await app.get_profile_photos(user.id)
+        if not pfp:
+            await message.edit_text(
+                infotext.format(
+                    full_name=full_name(user),
+                    user_id=user.id,
+                    first_name=user.first_name,
+                    last_name=user.last_name or "",
+                    username=user.username or "",
+                ),
+                disable_web_page_preview=True,
+            )
+        else:
+            dls = await app.download_media(pfp[0]["file_id"], file_name=f"{user.id}.png")
+            await message.delete()
+            await app.send_document(
+                message.chat.id,
+                dls,
+                caption=infotext.format(
+                    full_name=full_name(user),
+                    user_id=user.id,
+                    first_name=user.first_name,
+                    last_name=user.last_name or "",
+                    username=user.username or "",
+                ),
+                reply_to_message_id=message.reply_to_message.message_id
+                if message.reply_to_message
+                else None,
+            )
+            os.remove(dls)
+    except:
+        await message.edit("something went wrong")
+        await asyncio.sleep(2)
         await message.delete()
-        await app.send_document(
-            message.chat.id,
-            dls,
-            caption=infotext.format(
-                full_name=full_name(user),
-                user_id=user.id,
-                first_name=user.first_name,
-                last_name=user.last_name or "",
-                username=user.username or "",
-            ),
-            reply_to_message_id=message.reply_to_message.message_id
-            if message.reply_to_message
-            else None,
-        )
-        os.remove(dls)
-
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.command("id", HANDLING_KEY) & filters.me)
 async def id(app: Noxx, message):
-    cmd = message.command
-    chat_id = message.chat.id
-    if not message.reply_to_message and len(cmd) == 1:
-        get_user = message.from_user.id
-    elif len(cmd) == 1:
-        get_user = message.reply_to_message.from_user.id
-    elif len(cmd) > 1:
-        get_user = cmd[1]
-        try:
-            get_user = int(cmd[1])
-        except ValueError:
-            pass
     try:
-        user = await app.get_users(get_user)
-    except PeerIdInvalid:
-        await message.edit("I don't know that User.")
-        return
-    text = "**User ID**: `{}`\n**Chat ID**: `{}`".format(user.id, chat_id)
-    await message.edit(text)
+        cmd = message.command
+        chat_id = message.chat.id
+        if not message.reply_to_message and len(cmd) == 1:
+            get_user = message.from_user.id
+        elif len(cmd) == 1:
+            get_user = message.reply_to_message.from_user.id
+        elif len(cmd) > 1:
+            get_user = cmd[1]
+            try:
+                get_user = int(cmd[1])
+            except ValueError:
+                pass
+        try:
+            user = await app.get_users(get_user)
+        except PeerIdInvalid:
+            await message.edit("I don't know that User.")
+            return
+        text = "**User ID**: `{}`\n**Chat ID**: `{}`".format(user.id, chat_id)
+        await message.edit(text)
+    except:
+        await message.edit("something went wrong")
+        await asyncio.sleep(2)
+        await message.delete()
