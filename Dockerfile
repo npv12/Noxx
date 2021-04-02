@@ -61,6 +61,9 @@ RUN apt update && apt upgrade -y && \
     libopus-dev \
     pkg-config \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
+    
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y ffmpeg opus-tools bpm-tools
 
 # Setting up ENV Path for Chrom-bin and Chrome-Path
 ENV CHROME_BIN=/usr/bin/chromium-browser \
