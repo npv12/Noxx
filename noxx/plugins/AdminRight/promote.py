@@ -29,8 +29,9 @@ async def can_promote(app, message):
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("promote", HANDLING_KEY))
 async def promote(app: Noxx, message):
     chat_id = message.chat.id
-    user_id = message.from_user.id
+    user_id = None
     title = None
+
     if message.chat.type not in ["supergroup", "channel", "group"]:
         await message.edit("`How do you plan on promoting a user in his PM?`")
         await asyncio.sleep(2)
@@ -40,7 +41,9 @@ async def promote(app: Noxx, message):
     if not await can_promote(app, message):
        return
 
-    if(len(message.command) == 2 and message.reply_to_message):
+    if message.reply_to_message:
+        user_id = message.reply_to_message.from_user.id
+    elif(len(message.command) == 2 and message.reply_to_message):
         title = message.command[1]
     elif len(message.command) == 2:
         user_id = message.command[1]
