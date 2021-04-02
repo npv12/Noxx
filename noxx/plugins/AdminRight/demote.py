@@ -1,29 +1,9 @@
 from ..constants import HANDLING_KEY
 from pyrogram import filters
 import asyncio
+from .promote impport can_promote
 
 from ...noxx import Noxx
-
-async def can_promote(app, message):
-    can_promote = True
-    chat_id = message.chat.id
-    user_id = message.from_user.id
-    check_status = await app.get_chat_member(
-        chat_id=chat_id,
-        user_id=user_id
-    )
-    if check_status.status == 'creator':
-        can_promote=True
-    elif (check_status.can_promote_members == None):
-            can_promote=False
-
-    if(not can_promote):
-        await message.edit("`You don't have enough rights`")
-        await asyncio.sleep(2)
-        await message.delete()
-    return can_promote
-
-
 
 @Noxx.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & ~filters.forwarded & filters.me & filters.command("demote", HANDLING_KEY))
 async def promote(app: Noxx, message):
