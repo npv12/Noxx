@@ -24,7 +24,7 @@ if ENV:
     PM_LIMIT = int(os.environ.get("PM_LIMIT", None))
 
     #Downloading files
-    DOWNLOAD_LOACTION = os.environ.get("DOWNLOAD_LOACTION", None)
+    DOWNLOAD_LOCATION = os.environ.get("DOWNLOAD_LOCATION", None)
 
     #Weather
     OPENWEATHER_API = os.environ.get("OPENWEATHER_API", None)
@@ -51,7 +51,7 @@ else:
     PM_LIMIT = int(config.get("pyrogram", "pm_limit"))
 
     #Downloading files
-    DOWNLOAD_LOACTION = config.get("pyrogram", "download_location")
+    DOWNLOAD_LOCATION = config.get("pyrogram", "download_location")
 
     #Weather
     OPENWEATHER_API = config.get("pyrogram", "openweather_api")
