@@ -1,9 +1,17 @@
 from configparser import ConfigParser
-from noxx import API_ID, API_HASH, USERBOT_SESSION
+from noxx import API_ID, API_HASH, USERBOT_SESSION, BOT_TOKEN
 from pyrogram import Client
+from pyrogram.parser import parser
+import os
 
 from . import __version__
 
+slave = Client('Noxx-help', 
+                api_id=API_ID, 
+                api_hash=API_HASH, 
+                bot_token=BOT_TOKEN, 
+                plugins={'root': os.path.join(__package__, 'help-plugins')}
+            )
 
 class Noxx(Client):
     def __init__(self):
@@ -27,8 +35,10 @@ class Noxx(Client):
 
     def start(self):
         super().start()
+        slave.start()
         print(f"Noxx is running. Version is v{__version__}")
 
     def stop(self):
         super().stop()
+        slave.stop()
         print("I am off to sleep now")

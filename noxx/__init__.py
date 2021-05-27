@@ -1,6 +1,9 @@
 from configparser import ConfigParser
 import os
 from sys import version_info
+from pyrogram import Client
+from pyrogram.parser import parser
+import os
 
 __version__ = "1.1"
 NAME = 'noxx'
@@ -28,5 +31,6 @@ else:
     API_ID = config.get(NAME, 'API_ID')
     API_HASH = config.get(NAME, "API_HASH")
     USERBOT_SESSION = config.get(NAME, "USERBOT_SESSION")
+    BOT_TOKEN = config.get(NAME,"BOT_TOKEN")
 
 print("Env set properly")
