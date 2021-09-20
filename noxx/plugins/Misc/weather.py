@@ -21,8 +21,16 @@ async def ping(app: Noxx, message):
 
     loc = message.command[1]
     openweather_url = f"http://api.openweathermap.org/data/2.5/weather?q={loc}&appid={OPENWEATHER_API}"
-    response = requests.get(openweather_url)
-    response_json = response.json()
+    
+    try:
+        response = requests.get(openweather_url)
+        response_json = response.json()
+    except:
+        await message.edit(f"Could not fetch weather")
+        await asyncio.sleep(2)
+        await message.delete()
+        return
+
     if(response_json["cod"] == '401'):
         await message.edit("Incorrect API key")
 
