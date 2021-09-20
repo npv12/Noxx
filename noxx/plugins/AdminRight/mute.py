@@ -64,18 +64,19 @@ async def mute(app: Noxx, message):
             temp = re.split('(\d+)', message.command[2])
             time_to_mute = time_for_mute(temp)
 
+        user = await app.get_users(user_id)
         if(time_to_mute == -1):
             await app.restrict_chat_member(chat_id, user_id, ChatPermissions())
-            await message.edit(f"{message.reply_to_message.from_user.first_name} has been muted indefinately.")
+            await message.edit(f"{user.first_name} has been muted indefinately.")
             return
 
-        user = await app.get_users(user_id)
+        
         await app.restrict_chat_member(chat_id, user_id, ChatPermissions(), int(time() + time_to_mute))
         await message.edit(f"{user.first_name} has been muted for {time_to_mute}s.")
         return
     except Exception as e:
         print(e)
-        await message.edit("Failed to find the song")
+        await message.edit("Failed to mute the user")
         await asyncio.sleep(2)
         await message.delete()
 
