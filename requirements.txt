@@ -3,7 +3,7 @@ Pyrogram
 asyncio
 datetime
 TgCrypto
-google_trans_new
+itranslate
 pymongo
 requests
 dnspython
