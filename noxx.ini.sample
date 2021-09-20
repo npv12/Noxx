@@ -3,7 +3,7 @@
 api_id = 123456
 api_hash = 123456abcdef123456abcdef
 download_location = 'LOCATION OF WHERE FILES SHOULD BE DOWNLOADED'
-openweather_api = "OPENWEATHER API KEY"
+openweather_api = OPENWEATHER API KEY
 sticker_pack_name = "NAME OF A KANG PACK. Should start with an alphabet and should not have any special characters except '_'"
 mongo_url = MONGO_DAtABASE_URL
 db_name = Noxx #Enter your fav name for db
