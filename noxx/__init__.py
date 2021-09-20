@@ -40,7 +40,10 @@ else:
     # Pyrogram details
     API_ID = config.get("pyrogram", 'api_id')
     API_HASH = config.get("pyrogram", "api_hash")
-    USERBOT_SESSION = config.get("pyrogram", "userbot_session")
+    try:
+        USERBOT_SESSION = config.get("pyrogram", "userbot_session")
+    except:
+        USERBOT_SESSION = ''
 
     # MongoDB details
     MONGO_URL = config.get("pyrogram", "mongo_url")
