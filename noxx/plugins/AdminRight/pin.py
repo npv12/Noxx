@@ -8,7 +8,7 @@ async def pinmessages(app: Noxx, message):
     try:
         chat_id = message.chat.id
         user_id = message.from_user.id
-        command = f'{HANDLING_KEY}pin'
+        command = f'pin'
 
         if message.chat.type not in ["supergroup", "channel", "group"]:
             message_id = message.reply_to_message.message_id
@@ -29,8 +29,11 @@ async def pinmessages(app: Noxx, message):
                 message_id = message.reply_to_message.message_id
                 if(message.command[0]==command):
                     await app.pin_chat_message(chat_id,message_id)
+                    await message.edit("Pinned the message successfully")
                 else:
                     await app.unpin_chat_message(chat_id,message_id)
+                    await message.edit("Un-Pinned the message successfully")
+                await asyncio.sleep(2)
                 await message.delete()
                 return
             else:
