@@ -20,6 +20,7 @@ async def q_maker(app:Noxx, message):
         if(x.sticker):
             await x.forward(chat_id)
             is_sticker=True
+            await message.delete()
 
 async def get_response(app:Noxx):
     async for x in app.iter_history(BOT, limit=1):
