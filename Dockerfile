@@ -9,21 +9,16 @@ RUN apt update && apt upgrade -y
 RUN apt-get install -y bash \
             curl \
             git \
-            sudo \
             make \
             neofetch \
-            postgresql \
-            postgresql-client \
             python3-pip \
             python3-requests \
             python3-tz \
             openssl \
-            wget ffmpeg \
+            wget \
+            ffmpeg \
             opus-tools \
             bpm-tools
-
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y ffmpeg opus-tools bpm-tools
 
 # Pypi package Repo upgrade
 RUN pip3 install --upgrade pip setuptools
