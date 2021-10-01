@@ -2,6 +2,7 @@ import os
 from pyrogram import filters
 from pyrogram.types import User, Message
 from pyrogram.errors import PeerIdInvalid
+import asyncio
 
 from ..noxx import Noxx
 from .constants import HANDLING_KEY
