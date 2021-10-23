@@ -8,9 +8,12 @@ from ..constants import HANDLING_KEY
 
 @Noxx.on_message(filters.command(["bin"], HANDLING_KEY) & filters.me)
 async def neko(app: Noxx, message: Message):
-    message_text = message.reply_to_message.text
     await message.edit("Pasting...")
-    key = 'a'
+    if message.reply_to_message is None:
+        await message.edit("Please reply to message")
+        return -1
+    message_text = message.reply_to_message.text
+    key = ''
     try:
         response = requests.post("https://hastebin.com/documents", data=message_text, timeout=3)
         key = (response.json())["key"]
