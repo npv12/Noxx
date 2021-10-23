@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+asyncio = "*"
+itranslate = "*"
+pymongo = "*"
+requests = "*"
+dnspython = "*"
+pytgcalls = "*"
+ffmpeg-python = "*"
+Pillow = ">=5.3.0"
+Pyrogram = "*"
+DateTime = "*"
+TgCrypto = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
