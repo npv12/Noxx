@@ -7,5 +7,3 @@ itranslate
 pymongo
 requests
 dnspython
-pytgcalls
-ffmpeg-python
